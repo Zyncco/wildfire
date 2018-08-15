@@ -23,14 +23,14 @@ type Request struct {
 	RemoteAddr *AddrSpec
 	// AddrSpec of the desired destination
 	DestAddr *AddrSpec
-	reader   io.Reader
+	reader   *io.Reader
 }
 
 func (c *Command) toByte() byte {
 	return byte(*c)
 }
 
-func NewRequest(reader *io.Reader) (*Request, error) {
+func NewRequest(reader *io.Reader, conn *net.Conn) (*Request, error) {
 	header := []byte{0, 0, 0}
 
 	if _, err := io.ReadAtLeast(reader, header, 3); err != nil {
@@ -40,5 +40,25 @@ func NewRequest(reader *io.Reader) (*Request, error) {
 	if header[0] != wildfire.SocksVersion {
 		return nil, fmt.Errorf("Unsupported version: %v", header[0])
 	}
+
+	dest, err := GetAddrSpec(reader)
+
+	if err != nil {
+		return nil, err
+	}
+
+	(*conn).RemoteAddr()
+
+	request := &Request{
+		Version:  header[0],
+		Command:  Command(header[1]),
+		DestAddr: &dest,
+		reader:   reader,
+	}
+
+	return request, nil
+}
+
+func HandleRequest(request *Request) {
 
 }

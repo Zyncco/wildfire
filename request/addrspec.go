@@ -86,3 +86,17 @@ func GetAddrSpec(reader *io.Reader) (*AddrSpec, error) {
 
 	return address, nil
 }
+
+func ConvertAddrToAddrSpec(p *net.Addr) *AddrSpec {
+	addr := *p
+	spec := AddrSpec{}
+
+	switch addr := addr.(type) {
+	case *net.UDPAddr:
+		spec.IP = addr.IP
+		spec.Port = uint8(addr.Port)
+	case *net.TCPAddr:
+		spec.IP = addr.IP
+		spec.Port = uint8(addr.Port)
+	}
+}

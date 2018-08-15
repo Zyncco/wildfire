@@ -54,7 +54,7 @@ func serveConnection(conn net.Conn) error {
 		return err
 	}
 
-	if version[0] != socksVersion {
+	if version[0] != SocksVersion {
 		return fmt.Errorf("Unrecognized version number for connection.\n")
 	}
 
