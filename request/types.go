@@ -34,11 +34,11 @@ func NewRequest(reader *io.Reader, conn *net.Conn) (*Request, error) {
 	header := []byte{0, 0, 0}
 
 	if _, err := io.ReadAtLeast(reader, header, 3); err != nil {
-		return nil, fmt.Errorf("Failed to get command version: %v", err)
+		return nil, fmt.Errorf("failed to get command version: %v", err)
 	}
 
 	if header[0] != wildfire.SocksVersion {
-		return nil, fmt.Errorf("Unsupported version: %v", header[0])
+		return nil, fmt.Errorf("unsupported version: %v", header[0])
 	}
 
 	dest, err := GetAddrSpec(reader)
