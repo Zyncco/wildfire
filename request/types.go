@@ -46,7 +46,7 @@ func NewRequest(reader *io.Reader, conn *net.Conn) (*Request, error) {
 
 	// Find client's IP
 	addr := (*conn).RemoteAddr()
-	remote := ConvertAddrToAddrSpec(&addr)
+	remote := GetAddrFromAddr(&addr)
 
 	if err != nil {
 		return nil, err

@@ -87,7 +87,7 @@ func GetAddrSpec(reader *io.Reader) (*AddrSpec, error) {
 	return address, nil
 }
 
-func ConvertAddrToAddrSpec(p *net.Addr) *AddrSpec {
+func GetAddrFromAddr(p *net.Addr) *AddrSpec {
 	addr := *p
 	spec := AddrSpec{}
 
