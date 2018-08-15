@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	socksVersion = 5
+	SocksVersion = 5
 )
 
 func Serve(config config.Config) {
