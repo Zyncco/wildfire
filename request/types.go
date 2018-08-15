@@ -41,19 +41,23 @@ func NewRequest(reader *io.Reader, conn *net.Conn) (*Request, error) {
 		return nil, fmt.Errorf("unsupported version: %v", header[0])
 	}
 
+	// Find client's destination IP
 	dest, err := GetAddrSpec(reader)
+
+	// Find client's IP
+	addr := (*conn).RemoteAddr()
+	remote := ConvertAddrToAddrSpec(&addr)
 
 	if err != nil {
 		return nil, err
 	}
 
-	(*conn).RemoteAddr()
-
 	request := &Request{
-		Version:  header[0],
-		Command:  Command(header[1]),
-		DestAddr: dest,
-		reader:   reader,
+		Version:    header[0],
+		Command:    Command(header[1]),
+		RemoteAddr: remote,
+		DestAddr:   dest,
+		reader:     reader,
 	}
 
 	return request, nil

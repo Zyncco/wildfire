@@ -99,4 +99,5 @@ func ConvertAddrToAddrSpec(p *net.Addr) *AddrSpec {
 		spec.IP = addr.IP
 		spec.Port = uint8(addr.Port)
 	}
+	return &spec
 }
