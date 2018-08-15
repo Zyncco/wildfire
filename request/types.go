@@ -52,7 +52,7 @@ func NewRequest(reader *io.Reader, conn *net.Conn) (*Request, error) {
 	request := &Request{
 		Version:  header[0],
 		Command:  Command(header[1]),
-		DestAddr: &dest,
+		DestAddr: dest,
 		reader:   reader,
 	}
 
