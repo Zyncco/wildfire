@@ -7,10 +7,12 @@ import (
 	"net"
 )
 
+type AddressType byte
+
 const (
-	ipv4AddressType = byte(0x01)
-	fqdnAddressType = byte(0x03)
-	ipv6AddressType = byte(0x04)
+	ipv4AddressType = AddressType(0x01)
+	fqdnAddressType = AddressType(0x03)
+	ipv6AddressType = AddressType(0x04)
 )
 
 type AddrSpec struct {
@@ -29,19 +31,21 @@ func (a *AddrSpec) String() string {
 func GetAddrSpec(reader *io.Reader) (*AddrSpec, error) {
 	var address *AddrSpec
 
-	addressType := make([]byte, 1)
+	t := make([]byte, 1)
 
-	if _, err := (*reader).Read(addressType); err != nil {
+	if _, err := (*reader).Read(t); err != nil {
 		return nil, err
 	}
 
-	switch addressType[0] {
+	addressType := AddressType(t[0])
+
+	switch addressType {
 	case ipv4AddressType:
 		fallthrough
 	case ipv6AddressType:
 		length := 4
 
-		if addressType[0] == ipv6AddressType {
+		if addressType == ipv6AddressType {
 			length = 16
 		}
 
