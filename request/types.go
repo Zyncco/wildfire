@@ -11,6 +11,10 @@ import (
 
 type Command byte
 
+const (
+	Connect = Command(0x01)
+)
+
 // A Request represents request received by a server
 type Request struct {
 	// Protocol version
@@ -63,6 +67,10 @@ func NewRequest(reader *io.Reader, conn *net.Conn) (*Request, error) {
 	return request, nil
 }
 
-func HandleRequest(request *Request) {
+func HandleRequest(request *Request, conn *net.Conn) {
+	switch request.Command {
+	case Connect:
+		handleConnect(request, conn)
+	}
 
 }
