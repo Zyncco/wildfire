@@ -1,7 +1,6 @@
 package request
 
 import (
-	"github.com/labstack/gommon/log"
 	"io"
 	"net"
 )
@@ -10,8 +9,7 @@ func handleConnect(request *Request, conn *net.Conn) error {
 	target, err := net.Dial("tcp", request.DestAddr.String())
 
 	if err != nil {
-		log.Error(err)
-		return
+		return err
 	}
 
 	errChan := make(chan error, 2)
